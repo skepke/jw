@@ -1,0 +1,58 @@
+<html>
+<head>
+    <script src="https://content.jwplatform.com/libraries/MXPdpgqy.js"></script>
+</head>
+
+<body>
+
+<!-- Here is the <div> for the player -->
+<div id="myElement"></div>
+
+<script type="text/JavaScript">
+
+    const player = jwplayer('myElement').setup({
+        autostart: true,
+        localization: {
+            loadingAd: 'Laster annonse',
+            close: 'Lukk',
+            related: 'Flere videoer',
+        },
+        advertising: {
+            admessage: 'Videoen starter om xx',
+            adscheduleid: '1VRHwE0L',
+            client: 'googima',
+            cuetext: 'Annonse',
+            preloadAds: false,
+            rules: {
+                startOnSeek: 'pre',
+                timeBetweenAds: 0,
+            },
+            schedule: [],
+            skipmessage: 'Skip ad in xx seconds',
+            vpaidcontrols: false,
+            vpaidmode: 'enabled',
+        },
+        related: {
+            file: 'https://video-ws.startsiden.no/rest/RelatedPlaylist?related_media_id=MEDIAID',
+            displayMode: 'shelf',
+            autoplaytimer: 10,
+            onclick: 'play',
+            oncomplete: 'autoplay',
+            shouldAutoAdvance: false,
+            showButton: true,
+        },
+        playlist: '//content.jwplatform.com/v2/media/IQuypOxv',
+    });
+    player.on('ready', () => {
+        player.on('relatedReady', () => {
+            const relatedPlugin = player.getPlugin('related');
+            relatedPlugin.on('play', () => console.log('related play')); // THAT ONE IS NOT FIRED :(
+            relatedPlugin.on('open', () => console.log('related open'));
+            relatedPlugin.on('close', () => console.log('related close'));
+        })
+    });
+
+</script>
+
+</body>
+</html>
